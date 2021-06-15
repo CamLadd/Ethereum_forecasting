@@ -1,5 +1,9 @@
 # Time-Series Forecasting Ethereum Prices
 
+## Goal
+
+The goal of this project is to create a model that predicts prices that allow for successful day-trading. I want to make sure that the model predicts one day ahead, and that the culmination of all of these predictions follows the general trend of the actual prices, in order to allow day traders to make proper predictions to maximize profit or minimize loss.
+
 ## Data Source
 
 This data was scraped from CoinMarketCap.com using the webscraper Octoparse. The webpages used ajax syntax for the "load page" button, and therfore ajax timeout time needed to be applied in order to properly extract the data. This data is only concerned with Ethereum, and no other coin or blockchain.
@@ -16,7 +20,7 @@ The data includes the following features:
 6. Market Cap
 <br>
 
-This dataset provides a timeline of eth prices and related data from August 7th, 2015 to June 8th, 2021.
+This dataset provides a timeline of Ethereum prices and related data from August 7th, 2015 to June 8th, 2021.
 <br>
 
 
@@ -41,18 +45,28 @@ This dataset provides a timeline of eth prices and related data from August 7th,
 
 ### Random-Walk
 <br>
-The random-walk model performed interestingly. It followed a relatively similar trend as the actual forecast, however the values it provided were EXTREMELY exaggerated. When I run this code multiple times, the forecast can change dramatically. It is best to look into more comprehensive models to try and forecast this data.
+- The random-walk model performed interestingly. It followed a relatively similar trend as the actual forecast, however the values it provided were EXTREMELY exaggerated. When I run this code multiple times, the forecast can change dramatically. It is best to look into more comprehensive models to try and forecast this data.
+
+#### Metric and Evaluation
+<br>
+- The RMSE value for the Random-Walk model varied with each run of the code, however the best value that was achieved was:
 
 ### ARIMA, SARIMAX, and One-Step-Ahead
 <br>
 
-The stationarity of the data was tested using an Augmented Dickey-Fuller Test. Before differencing, the ADF-Test gave a result that indicated that the data was strongly non-stationary. After first-order differencing, the ADF-Test gave a result that indicated the data was now stationary. 
+- The stationarity of the data was tested using an Augmented Dickey-Fuller Test. Before differencing, the ADF-Test gave a result that indicated that the data was strongly non-stationary. After first-order differencing, the ADF-Test gave a result that indicated the data was now stationary. 
 <br>
 
-The One-Step-Ahead Forecast was very accurate! It makes sense, considering the prices of Ethereum strongly follow daily trends.
+- The One-Step-Ahead Forecast was very accurate! It makes sense, considering the prices of Ethereum strongly follow daily trends.
 <br>
 
-- Using the calculated ACF and PACF graphs, along with the ADF-Test, the p, d, and q values of 1, 1, 2 were maually selected for the ARIMA model beore using AutoArima for automatic optimazation. The ARIMA model performed poorly for the data provided. This can almost certainly be attributed to the exaggerated volatility of Ethereum prices. The period of time that ARIMA was trained on showed an interesting trend. The price remained low, then spiked to a value that was much higher than before, and just as quickly fell down to a very low value again and remained there for quite some time. In other words, it was relatively stationary, then had a steep upwards trend, a steep downwards trend, and then remained relatively stationary again. The two main determinants of ARIMA predicitons, past values and moving average, are very hard to predict upon because thei values vary by so much. Even when using the AutoArima package to optimize the values of p,d, and q, the model did not improve. The same results occured with the SARIMAX model as well, an expected outcome due to the fact that the SARIMAX tries to include seasonality in its calculations, and this data shows no seasonality.
+- Using the calculated ACF and PACF graphs, along with the ADF-Test, the p, d, and q values of 1, 1, 1 were maually selected for the ARIMA model beore using AutoArima for automatic optimazation. The ARIMA model performed poorly for the data provided. This can almost certainly be attributed to the exaggerated volatility of Ethereum prices. The period of time that ARIMA was trained on showed an interesting trend. The price remained low, then spiked to a value that was much higher than before, and just as quickly fell down to a very low value again and remained there for quite some time. In other words, it was relatively stationary, then had a steep upwards trend, a steep downwards trend, and then remained relatively stationary again. The two main determinants of ARIMA predicitons, past values and moving average, are very hard to predict upon because thei values vary by so much. Even when using the AutoArima package to optimize the values of p,d, and q, the model did not improve. The same results occured with the SARIMAX model as well, an expected outcome due to the fact that the SARIMAX tries to include seasonality in its calculations, and this data shows no seasonality.
+<br>
+
+### Metric and Evaluation
+<br>
+
+The RMSE values for the ARIMA and SARIMAX models were very poor, howing high error margins and therefore indicating that they were poor models. The One-Step-Ahead model's RMSE score was great, indicating that it was quite an excellent model.
 <br>
 
 ### LSTM
@@ -69,8 +83,12 @@ The One-Step-Ahead Forecast was very accurate! It makes sense, considering the p
 - Blue Line: Actual Prices
 <br>
 
-- Out of all of the models, the LSTM model performed the best by far, following the general trend of the actual prices, but it still undervalues the price of the asset by a significant amount. This can most certainly be considered a flawed model due to this, however overall, if one were to use this model to attempt to make trades, they still would have made a profit if they used the model to look 90 days into the future. The model predicted rises and falls of the data rather well, and simply just undershot the true value. Since profit is based on percentage rise and percetage fall, following the model would have resulted in a net percentage gain on investment, and in fact the reality of the situation would have resulted in a much higher gain than the model would have predicted, due to the extreme values that Etheruem rose to during the time that the model made its predictions  
+#### Metric and Evaluation
+- The RMSE score for the LSTM model was the lowest of all of the models that came before, indicating that it would the most accurate. 
+
+- Out of all of the models, the LSTM model performed the best by far, following the general trend of the actual prices, but it still undervalues the price of the asset by a significant amount. This can most certainly be considered a flawed model due to this, however overall, if one were to use this model to attempt to make day trades, they still could have succesfully maximized profit or minimized loss due to the model following the actual trend. The model predicted rises and falls of the data rather well, and simply just undershot the true value. Since profit is based on percentage rise and percetage fall, following the model would have resulted in good investment decisions, and in fact the reality of the situation would have resulted in a much better results than the model would have predicted, due to the extreme values that Etheruem rose to during the time that the model made its predictions.
 <br>
+
 ## Conclusion
 - Ethereum is an extremely volatile asset with a lack of seasonality. Due to these features, the most effective model for properly predicting the trend of the actual prices most closely in order to ensure profit is the LSTM model. Using this model, a decision on whether to sell, hold, or buy would have been properly made at almost any period of time, due to the trend of the actual data being very closely predicted by the LSTM model, even though the model itself undershot the true values of the Ethereum asset. 
 <br>
