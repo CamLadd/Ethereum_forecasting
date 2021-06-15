@@ -22,11 +22,11 @@ This dataset provides a timeline of eth prices and related data from August 7th,
 
 ## Visualizations
 
-![image info](Visuals/histograms.png)
+![image info](Visuals/Histograms.png)
 - These histograms exemplify the volatility of the asset. The large majority of prices fall 0 and 1000, however there are low-frequency instances of prices that are 2, 3, and 4 times the max value of that range. This shows that the price spiked and fell, never maintaining a high value for very long at all. 
 
 ![image info](Visuals/acf_plots.png)
-
+- Using the ACF and PACF plots shown above, we can conclude that an optimal value for p for an ARIMA model would be 1, and an optimal value for q for an ARIMA model would be 1 as well. You can identify this by the exaggreated correlation at the corresponding lag values
 
 ## EDA 
 
@@ -39,6 +39,10 @@ This dataset provides a timeline of eth prices and related data from August 7th,
 
 ## Modeling
 
+### Random-Walk
+<br>
+The random-walk model performed interestingly. It followed a relatively similar trend as the actual forecast, however the values it provided were EXTREMELY exaggerated. When I run this code multiple times, the forecast can change dramatically. It is best to look into more comprehensive models to try and forecast this data.
+
 ### ARIMA, SARIMAX, and One-Step-Ahead
 <br>
 
@@ -48,8 +52,26 @@ The stationarity of the data was tested using an Augmented Dickey-Fuller Test. B
 The One-Step-Ahead Forecast was very accurate! It makes sense, considering the prices of Ethereum strongly follow daily trends.
 <br>
 
-Using the calculated ACF and PACF graphs, along with the ADF-Test, the p, d, and q values of 1, 1, 2 were maually selected for the ARIMA model beore using AutoArima for automatic optimazation. The ARIMA model performed poorly for the data provided. This can almost certainly be attributed to the exaggerated volatility of Ethereum prices. The period of time that ARIMA was trained on showed an interesting trend. The price remained low, then spiked to a value that was much higher than before, and just as quickly fell down to a very low value again and remained there for quite some time. In other words, it was relatively stationary, then had a steep upwards trend, a steep downwards trend, and then remained relatively stationary again. The two main determinants of ARIMA predicitons, past values and moving average, are very hard to predict upon because thei values vary by so much. Even when using the AutoArima package to optimize the values of p,d, and q, the model did not improve. The same results occured with the SARIMAX model as well, an expected outcome due to the fact that the SARIMAX tries to include seasonality in its calculations, and this data shows no seasonality.
+- Using the calculated ACF and PACF graphs, along with the ADF-Test, the p, d, and q values of 1, 1, 2 were maually selected for the ARIMA model beore using AutoArima for automatic optimazation. The ARIMA model performed poorly for the data provided. This can almost certainly be attributed to the exaggerated volatility of Ethereum prices. The period of time that ARIMA was trained on showed an interesting trend. The price remained low, then spiked to a value that was much higher than before, and just as quickly fell down to a very low value again and remained there for quite some time. In other words, it was relatively stationary, then had a steep upwards trend, a steep downwards trend, and then remained relatively stationary again. The two main determinants of ARIMA predicitons, past values and moving average, are very hard to predict upon because thei values vary by so much. Even when using the AutoArima package to optimize the values of p,d, and q, the model did not improve. The same results occured with the SARIMAX model as well, an expected outcome due to the fact that the SARIMAX tries to include seasonality in its calculations, and this data shows no seasonality.
 <br>
 
 ### LSTM
 <br>
+
+- For the LSTM models, I used a total of 25 epochs, allowing the MSE score to converge towards a value towards the final epochs. At first, a single LSTM layer was used, however the results were very poor, and so I opted to add in two extra LSTM layers to try and improve the results. The loss metric use was Mean-Squared-Error, and the optimizer was the 'adam' optimizer. The addition of the two LSTM layers aided in the model's predictions, and created a model that more closely followed the trend of the actual prices.
+<br>
+
+- The model predicted against the test data is shown below:
+![image info](Visuals/lstmforecast.png)
+<br>
+
+- Red Line: Predictions
+- Blue Line: Actual Prices
+<br>
+
+- Out of all of the models, the LSTM model performed the best by far, following the general trend of the actual prices, but it still undervalues the price of the asset by a significant amount. This can most certainly be considered a flawed model due to this, however overall, if one were to use this model to attempt to make trades, they still would have made a profit if they used the model to look 90 days into the future. The model predicted rises and falls of the data rather well, and simply just undershot the true value. Since profit is based on percentage rise and percetage fall, following the model would have resulted in a net percentage gain on investment, and in fact the reality of the situation would have resulted in a much higher gain than the model would have predicted, due to the extreme values that Etheruem rose to during the time that the model made its predictions  
+<br>
+## Conclusion
+- Ethereum is an extremely volatile asset with a lack of seasonality. Due to these features, the most effective model for properly predicting the trend of the actual prices most closely in order to ensure profit is the LSTM model. Using this model, a decision on whether to sell, hold, or buy would have been properly made at almost any period of time, due to the trend of the actual data being very closely predicted by the LSTM model, even though the model itself undershot the true values of the Ethereum asset. 
+<br>
+- Further research of exogenous variables and the addition of those variables into the training of the model could greatly improve the performance, since it is common that Ethereum prices follow the price changes of other assets such as Bitcoin, and follow the overall market trend as well. Furthermore, an exogenous variable found in the same DataFrame such as volume could also be used to attempt to increase model accuracy. 
