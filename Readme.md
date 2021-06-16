@@ -1,12 +1,21 @@
 # Time-Series Forecasting Ethereum Prices
 
-## Goal
+## Business Understanding
+- Ethereum is a decentralized, open-source blockchain with smart contract functionality. Its adoption in the financial world has grown exponentially over the past few years, and as a result, its price has skyrocketed
+- Due to the uncertainty of decentralized finance, or DeFi, the value of Ethereum is highly volatile, which makes the use of traditional forecasting models such as ARIMA difficult
+- The investment potential of Ethereum is unprecedented, and many different trading strategies are possible to take advantage of this. For this project, day-trading will be the trading strategy of focus.
 
-The goal of this project is to create a model that predicts prices that allow for successful day-trading. I want to make sure that the model predicts one day ahead, and that the culmination of all of these predictions follows the general trend of the actual prices, in order to allow day traders to make proper predictions to maximize profit or minimize loss.
+
+## Goal and Audience
+
+- The goal of this project is to create a model that predicts prices for the Ethereum asset for the next day utilizing a machine learning model.
+- The target audience for this project is an investment firm or an institutional invester that shows interest in day trading the Ethereum asset.
+<br>
 
 ## Data Source
 
 This data was scraped from CoinMarketCap.com using the webscraper Octoparse. The webpages used ajax syntax for the "load page" button, and therfore ajax timeout time needed to be applied in order to properly extract the data. This data is only concerned with Ethereum, and no other coin or blockchain.
+
 
 ## Features
 
@@ -27,7 +36,12 @@ This dataset provides a timeline of Ethereum prices and related data from August
 ## Visualizations
 
 ![image info](Visuals/Histograms.png)
-- These histograms exemplify the volatility of the asset. The large majority of prices fall 0 and 1000, however there are low-frequency instances of prices that are 2, 3, and 4 times the max value of that range. This shows that the price spiked and fell, never maintaining a high value for very long at all. 
+
+- High occurrence of low prices
+
+- Very low occurrence of high prices
+
+- Distribution of prices shows that the price remained relatively stationary, then spiked briefly several times
 
 ![image info](Visuals/acf_plots.png)
 - Using the ACF and PACF plots shown above, we can conclude that an optimal value for p for an ARIMA model would be 1, and an optimal value for q for an ARIMA model would be 1 as well. You can identify this by the exaggreated correlation at the corresponding lag values
@@ -63,7 +77,7 @@ This dataset provides a timeline of Ethereum prices and related data from August
 ### One-Step-Ahead
 - RMSE = 72.12
 - The One-Step-Ahead Forecast was very accurate! It was the most accurate of all of the models created.
-![image info](Visuals/one_step_ahead.png)
+![image info](Visuals/zoomosa.png)
 
 <br>
 
@@ -75,24 +89,23 @@ This dataset provides a timeline of Ethereum prices and related data from August
 
 ### SARIMAX
 - RMSE = 658.58
-- The SARIMAX model performed much better than the ARIMA model, however still leaves much to be desired.
+- The SARIMAX model was run through a gridsearch in order to try and optimize its hypyer parameters
+- With the optimization of the hyperparamters, an RMSE was achieved that was a significant improvement to the ARIMA model
 ![image info](Visuals/sarimax.png)
 <br>
 
 ### LSTM
-- RMSE = 403.00
+- RMSE = 302.61
 - For the LSTM models, I used a total of 25 epochs, allowing the MSE score to converge towards a value towards the final epochs. At first, a single LSTM layer was used, however the results were very poor, and so I opted to add in two extra LSTM layers to try and improve the results. The loss metric use was Mean-Squared-Error, and the optimizer was the 'adam' optimizer. The addition of the two LSTM layers aided in the model's predictions, and created a model that more closely followed the trend of the actual prices. The best RMSE score achieved was the third best of all the models tested.
-
-- The RMSE score for the LSTM model was the lowest of all of the models that came before, indicating that it would the most accurate. 
-
-- Out of all of the models, the LSTM model performed the best by far, following the general trend of the actual prices, but it still undervalues the price of the asset by a significant amount. This can most certainly be considered a flawed model due to this, however overall, if one were to use this model to attempt to make day trades, they still could have succesfully maximized profit or minimized loss due to the model following the actual trend. The model predicted rises and falls of the data rather well, and simply just undershot the true value. Since profit is based on percentage rise and percetage fall, following the model would have resulted in good investment decisions, and in fact the reality of the situation would have resulted in a much better results than the model would have predicted, due to the extreme values that Etheruem rose to during the time that the model made its predictions.
-
+- The RMSE of the LSTM model is 302.61, which is significantly better than that of the ARIMA and SARIMAX. However, it did not beat out the one-step-ahead model.
 ![image info](Visuals/lstm.png)
 <br>
 
 ## Conclusion
-- Ethereum is an extremely volatile asset with a lack of seasonality. The best performing model was the one-step-ahead model, followed by the LSTM model, and then the random-walk model. Overall, it seems as if a one-step-ahead model may be the best option. However, an LSTM model has a lot of potential. Further research of exogenous variables and the addition of those variables into the training of the LSTM model could greatly improve the performance, since it is common that Ethereum prices follow the price changes of other assets such as Bitcoin, and follow the overall market trend as well. Furthermore, an exogenous variable found in the same DataFrame such as volume could also be used to attempt to increase model accuracy. The ability of the LSTM model to potentially improve in such a way is unique to it when compared to random-walk and one-step-ahead. Due to this, a more complex LSTM model could result in very good performance that may also shine light on other assets.
+- Ethereum is an extremely volatile asset with a lack of seasonality. The best performing model was the one-step-ahead model, followed by the LSTM model, and then the random-walk model. Overall, it seems as if a one-step-ahead model may be the best option for predicting the price of Ethereum on a daily basis. However, when it comes to longer term predictions, the One-Step-Ahead model is not built for optimal predictions, and therefore the LSTM model or another model may be the best option. 
+- The business goal of this project was day trading, but a more long-term focused goal for the project might be beneficial to a broader audience and consequently be more useful.
 
 ## Further Ideas
-- Use the models to forecast into the future. Currently they are simply forecasted into the test set time period, which has already passed. In order for this to be a viable product, an easy functionality to predict forward in time must be created. This is rather simple and can be done quickly.
-- Improve models through addition of exogenous variables and furhter tuning (and in the case of random-walk, randomizing)
+- Calculate profit as a more broadly understandable metric for the business audience of this project
+- Improve model's through use of exogenous variables
+- Test other model's for their effectiveness in longer term predictions, expanding the breadth of the project
