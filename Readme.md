@@ -58,6 +58,7 @@ This dataset provides a timeline of Ethereum prices and related data from August
 ### Random-Walk
 - RMSE = 323.097
 - The best model constructed using Random-Walk had a relatively decent RMSE value, with only one model performing better; the One-Step-Ahead model.
+![image info](Visuals/random_walk.png)
 
 ### One-Step-Ahead
 - RMSE = 72.12
