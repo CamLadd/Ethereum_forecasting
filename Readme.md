@@ -1,5 +1,9 @@
 # Time-Series Forecasting Ethereum Prices
 
+
+![image info](Visuals/Ethereum-2.png)
+
+
 ## Business Understanding
 - Ethereum is a decentralized, open-source blockchain with smart contract functionality. Its adoption in the financial world has grown exponentially over the past few years, and as a result, its price has skyrocketed from being worth less than \$1 to over $2000 at the time of writing this page.
 - Due to the uncertainty of decentralized finance, or DeFi, the value of Ethereum is highly volatile, which makes the use of traditional forecasting models such as ARIMA difficult
