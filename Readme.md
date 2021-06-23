@@ -76,7 +76,7 @@ This dataset provides a timeline of Ethereum prices and related data from August
 
 - Using the ACF and PACF plots shown above, we can (uncertainly) conclude that an optimal value for p for an ARIMA model would be 1, and an optimal value for q for an ARIMA model would be 1 as well. You can identify this by the exaggreated correlation at the corresponding lag values. Auto-ARIMA will be used during the modeling process to optimize these parameters.
 
-![image info](Visuals/seasonality.png)
+![image info](Visuals/seasonality.PNG)
 
 - The visual representations of the monthly price movement shows no particular seasonal trend. There is no season that seems to have more activity than the others across the years.
 
