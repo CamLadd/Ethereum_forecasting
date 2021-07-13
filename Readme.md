@@ -122,14 +122,13 @@ A total of 5 models were run in the following order:
 |                         |
 | Prophet(Exo)   | 277.92 |
 |                         |
-| LSTM (No Exo)  | 135.55 |
+| LSTM (No Exo)  | 86.85 |
 
 ### Overall Results
 
 The best performing model was the model with:
 - 1 LSTM layer
 - 256 units per layer
-- Dropout specified within the LSTM layer rather than being a discrete layer itself
 
 More complex models performed poorly in comparison to the one layer model.
 
