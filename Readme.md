@@ -129,29 +129,29 @@ A total of 5 models were run in the following order:
 The best performing model was the model with:
 - 1 LSTM layer
 - 256 units per layer
+- RMSE = 86.85
+The RMSE value for the model was surprisingly excellent.
 
-More complex models performed poorly in comparison to the one layer model.
-
-The model predicted higher than actual prices for roughly the first 550 timesteps, and then predicted lower than actual prices for the remaining timesteps. 
-
-Overall, the model predictions followed the trend of the actual prices quite closely, correctly timing (although very roughly) the sharp rises and falls in the price of Ethereum. Volatility is what makes trading Ethereum so difficult, and a model that can even roughly predict the highly volatile time periods of the asset can be very useful.
+More complex models performed poorly in comparison to the one layer model. 
 <br>
 
 
 ## Profit Calculations for Top Model Compared to Simple Moving Average Trading Strategy and Buy-and-Hold Strategy
 
-### LSTM Strategy
+### LSTM Strategy (Under Review)
 The LSTM Trading Strategy is described as such:
 
 *   When the model predicts a rise in value for the following day, one unit of Ethereum is bought
 
 *   When the model predicts a decline in value for the following day, one unit of Ethereum is sold
 
-#### Overall Performance
+#### Overall Performance (Under review)
 
-    * The final portfolio value of  $273,357.79
-    * This is a total profit of $173,357.79
-    * Increased original investment by 2.733x
+    * The final portfolio value of  
+    * This is a total profit of 
+    * Increased original investment by 
+
+
 <br>
 
 ### SMA Strategy
